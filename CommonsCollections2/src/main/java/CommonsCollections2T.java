@@ -47,7 +47,7 @@ public class CommonsCollections2T {
         outputStream.writeObject(tb);
         outputStream.close();
 
-        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc2p.out"));
+        ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream("cc2t.out"));
         inputStream.readObject();
     }
 }
